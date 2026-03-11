@@ -1,0 +1,126 @@
+# STM32 BLE Controller — APK Build Guide
+## Complete Step-by-Step Instructions
+
+---
+
+## WHAT YOU NEED (install these first)
+1. **Node.js** → https://nodejs.org  (download LTS version)
+2. **Android Studio** → https://developer.android.com/studio
+   - During install, make sure "Android SDK" is checked
+3. **Java JDK 17** → comes with Android Studio (no separate install needed)
+
+---
+
+## STEP 1 — Open Terminal / Command Prompt
+- Windows: Press `Win + R`, type `cmd`, press Enter
+- Mac: Open Terminal from Applications
+
+---
+
+## STEP 2 — Go into the project folder
+```
+cd path/to/stm32-ble-app
+```
+Example on Windows:
+```
+cd C:\Users\YourName\Downloads\stm32-ble-app
+```
+
+---
+
+## STEP 3 — Install all dependencies
+```
+npm install
+```
+Wait for it to finish (may take 1-2 minutes).
+
+---
+
+## STEP 4 — Add Android platform
+```
+npx cap add android
+```
+
+---
+
+## STEP 5 — Sync files to Android project
+```
+npx cap sync android
+```
+
+---
+
+## STEP 6 — Open in Android Studio
+```
+npx cap open android
+```
+Android Studio will open automatically.
+
+---
+
+## STEP 7 — Build the APK in Android Studio
+1. Wait for "Gradle sync" to finish (bottom bar shows progress)
+2. Click menu: **Build → Build Bundle(s) / APK(s) → Build APK(s)**
+3. Wait for build (1-3 minutes)
+4. Click **"locate"** in the popup to find your APK
+
+APK location:
+```
+android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+---
+
+## STEP 8 — Install on your phone
+1. Copy `app-debug.apk` to your phone
+2. On your phone: Settings → Security → Enable "Install unknown apps"
+3. Open the APK file → Install
+
+---
+
+## PERMISSIONS (automatically handled by the plugin)
+The app will ask for these on first launch:
+- Bluetooth permission
+- Bluetooth scan permission  
+- Location permission (required by Android for BLE scanning)
+
+Just tap "Allow" on all of them.
+
+---
+
+## TROUBLESHOOTING
+
+**"SDK not found" error in Android Studio**
+→ Open Android Studio → SDK Manager → Install Android SDK 34
+
+**"JAVA_HOME not set" error**
+→ Android Studio → Settings → Build Tools → Gradle → Set Gradle JDK to "Android Studio JDK"
+
+**BleClient not found on phone**
+→ Make sure you ran `npx cap sync android` AFTER `npm install`
+→ Then rebuild APK in Android Studio
+
+**App crashes on launch**
+→ In Android Studio: View → Tool Windows → Logcat → look for red errors
+
+---
+
+## YOUR BLE MODULE UUIDs
+Service:        0000FFE0-0000-1000-8000-00805F9B34FB
+Characteristic: 0000FFE1-0000-1000-8000-00805F9B34FB
+
+These match HM-10, JDY-08, AT-09 modules.
+If your module uses different UUIDs, edit www/index.html:
+  const SVC_UUID  = 'YOUR-SERVICE-UUID-HERE';
+  const CHAR_UUID = 'YOUR-CHAR-UUID-HERE';
+Then run `npx cap sync android` and rebuild.
+
+---
+
+## COMMANDS SENT TO STM32
+LED1_ON / LED1_OFF
+LED2_ON / LED2_OFF  
+LED3_ON / LED3_OFF
+ALL_ON / ALL_OFF
+
+Each command is sent as plain text with \n at the end.

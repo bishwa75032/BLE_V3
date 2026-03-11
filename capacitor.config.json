@@ -1,0 +1,23 @@
+{
+  "appId": "com.stm32.blecontroller",
+  "appName": "STM32 BLE Ctrl",
+  "webDir": "www",
+  "server": {
+    "androidScheme": "https"
+  },
+  "android": {
+    "allowMixedContent": true,
+    "captureInput": true,
+    "webContentsDebuggingEnabled": false
+  },
+  "plugins": {
+    "BluetoothLe": {
+      "displayStrings": {
+        "scanning": "Scanning for STM32 devices...",
+        "cancel": "Cancel",
+        "availableDevices": "Available BLE Devices",
+        "noDeviceFound": "No device found"
+      }
+    }
+  }
+}
